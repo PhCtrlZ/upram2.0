@@ -1,0 +1,142 @@
+chcp 65001 >nul
+@echo off
+title Tool tang ram by Nguyen Hoang Phuc
+mode con: cols=1000 lines=350 
+chcp 65001 >nul
+color f0
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+if '%errorlevel%' NEQ '0' (
+    echo  Chay CMD Voi Quyen Quan tri - Run as Administrator...
+    goto goUAC 
+) else (
+ goto goADMIN )
+
+:goUAC
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    set params = %*:"=""
+    echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    "%temp%\getadmin.vbs"
+    del "%temp%\getadmin.vbs"
+    exit /B
+
+:goADMIN
+    pushd "%CD%"
+    CD /D "%~dp0"
+mode con: cols=1000 lines=350
+chcp 65001 >nul
+color 3f 
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+echo Tool copyright by : Nguyen Hoang Phuc
+echo Choose one language
+echo [1].Vietnamese
+echo [2].English
+set /p chon=Choose language:
+if %chon%==1 goto vnm
+if %chon%==2 goto el
+:vnm
+cls
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+echo 1.Windows 10
+echo 2.Windows 11
+set/p pa=Nhap he dieu hanh windows ma ban dang su dung:
+if %pa%==1 goto 10
+if %pa%==2 goto 11
+:10
+cls
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+wmic pagefile list /format:list
+systeminfo
+echo Vui long tim dong chu Total Physical Memory nhap 4 con so hien thi tren do ko nhap dau , 
+set /p nhap=nhap so ram:
+set /a kq=%nhap%/1000
+echo so ram co trong may ban la:%kq%
+set /a lo=%nhap%*2
+set /a cu=%nhap%*3
+echo so ram cua Initial size tang duoc la:%lo%
+echo so ram cua Maximum size tang duoc la:%cu%
+pause
+echo He thong dang tang ram vui long cho trong giay lat...
+timeout /t 3 > nul
+wmic computersystem where name="%computername%" set AutomaticManagedPagefile=false
+wmic pagefileset where name="C:\\pagefile.sys" set InitialSize=%lo%,MaximumSize=%cu%
+wmic computersystem where name="%computername%" set AutomaticManagedPagefile=true
+echo Tang ram thanh cong !!!
+echo Cam on ban da su dung phan mem cua toi!
+pause
+exit /b
+:11
+cls
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+wmic pagefile list /format:list
+systeminfo
+echo Vui long tim dong chu Total Physical Memory nhap 4 con so hien thi tren do ko nhap dau ,
+set /p nhap=nhap so ram:
+set /a kq=%nhap%/1000
+echo so ram co trong may ban la:%kq%
+set /a lo=%nhap%*2
+set /a cu=%nhap%*3
+echo so ram cua Initial size tang duoc la:%lo%
+echo so ram cua Maximum size tang duoc la:%cu%
+pause
+echo He thong dang tang ram vui long cho trong giay lat...
+timeout /t 3 > nul
+wmic computersystem the place title="%computername%" set AutomaticManagedPagefile=false
+wmic pagefileset where name="C:\\pagefile.sys" set InitialSize=%lo%,MaximumSize=%cu%
+wmic computersystem where name="%computername%" set AutomaticManagedPagefile=true
+echo Tang ram thanh cong !!!
+echo Cam on ban da su dung phan mem cua toi!
+pause
+exit /b
+:el
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+echo 1.Windows 10
+echo 2.Windows 11
+set/p pa=Chose your operating system:
+if %pa%==1 goto 10
+if %pa%==2 goto 11
+:10
+cls
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+wmic pagefile list /format:list
+systeminfo
+echo You can see Total Physical Memory you enter four number in here and don't enter ','
+set /p nhap=Enter your computer Ram:
+set /a kq=%nhap%/1000
+echo Ram in your computer:%kq%
+set /a lo=%nhap%*2
+set /a cu=%nhap%*3
+echo Compare the RAM of Initial size to be:%lo%
+echo Compare the RAM of Maximum size to be:%cu%
+pause
+echo Please wait...
+timeout /t 3 > nul
+wmic computersystem the place title="%computername%" set AutomaticManagedPagefile=false
+wmic pagefileset where name="C:\\pagefile.sys" set InitialSize=%lo%,MaximumSize=%cu%
+wmic computersystem where name="%computername%" set AutomaticManagedPagefile=true
+echo successfully!!!
+echo Thanks for used my tool!
+pause
+exit /b
+:11
+cls
+echo ================Tool by Nguyen Hoang Phuc © ===================================
+wmic pagefile list /format:list
+systeminfo
+echo You can see Total Physical Memory you enter four number in here and don't enter ','
+set /p nhap=Enter your computer Ram:
+set /a kq=%nhap%/1000
+echo so ram co trong may ban la:%kq%
+set /a lo=%nhap%*2
+set /a cu=%nhap%*3
+echo Compare the RAM of Initial size to be:%lo%
+echo Compare the RAM of Maximum size to be:%cu%
+pause
+echo Please wait...
+timeout /t 3 > nul
+wmic computersystem the place title="%computername%" set AutomaticManagedPagefile=false
+wmic pagefileset where name="C:\\pagefile.sys" set InitialSize=%lo%,MaximumSize=%cu%
+wmic computersystem where name="%computername%" set AutomaticManagedPagefile=true
+echo successfully!!!
+echo Thanks for used my tool!
+pause
+exit /b
